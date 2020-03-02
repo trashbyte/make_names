@@ -1,12 +1,23 @@
 [package]
-name = "make_names"
+name = "nametag"
+description = "A utility crate emulating UE4's FName system"
 version = "0.0.1"
-authors = ["trashbyte"]
+authors = ["trashbyte <github@trashbyte.io>"]
 edition = "2018"
+repository = "https://github.com/trashbyte/nametag"
+keywords = ["name", "tag", "fname"]
+categories = ["no-std"]
+license = "MIT"
+
+[features]
+std = []
+default= ["std"]
 
 [lib]
 proc-macro = true
 
 [dependencies]
-syn = "1.0.8"
-quote = "1.0.2"
+syn = { version = "1.0.8", default-features = false, features = ["parsing", "proc-macro"] }
+quote = { version = "1.0.2", default-features = false }
+proc-macro2 = "1.0.9"
+hashers = "1.0.1"

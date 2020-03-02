@@ -1,15 +1,24 @@
+#![cfg_attr(not(feature="std"), no_std)]
+
 extern crate proc_macro;
 extern crate syn;
 extern crate quote;
 
 use proc_macro::TokenStream;
+use proc_macro2::{Ident, Span};
 use syn::buffer::TokenBuffer;
-use std::collections::hash_map::DefaultHasher;
-use std::hash::{Hash, Hasher};
-use quote::{quote, format_ident};
+use quote::quote;
+
+#[cfg(feature="std")] use std::hash::{Hash, Hasher};
+
+#[cfg(not(feature="std"))] extern crate alloc;
+#[cfg(not(feature="std"))] use alloc::vec::Vec;
+#[cfg(not(feature="std"))] use alloc::string::ToString;
+#[cfg(not(feature="std"))] use core::hash::{Hash, Hasher};
+
 
 #[proc_macro]
-pub fn make_names(input: TokenStream) -> TokenStream {
+pub fn setup_names(input: TokenStream) -> TokenStream {
     let mut names = Vec::new();
     let mut name_idents = Vec::new();
     let mut hashes = Vec::new();
@@ -19,10 +28,10 @@ pub fn make_names(input: TokenStream) -> TokenStream {
     while !cursor.eof() {
         if let Some((ident, cur)) = cursor.ident() {
             let s = ident.to_string();
-            let mut hasher = DefaultHasher::new();
+            let mut hasher = hashers::fnv::FNV1aHasher64::default();
             s.hash(&mut hasher);
             names.push(s.clone());
-            name_idents.push(format_ident!("{}", s));
+            name_idents.push(Ident::new(&s, Span::call_site()));
             hashes.push(hasher.finish());
 
             cursor = cur;
