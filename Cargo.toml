@@ -6,7 +6,7 @@ authors = ["trashbyte <github@trashbyte.io>"]
 edition = "2018"
 repository = "https://github.com/trashbyte/nametag"
 keywords = ["name", "tag", "fname"]
-categories = ["no-std"]
+categories = ["no-std", "development-tools::build-utils"]
 license = "MIT"
 
 [features]
