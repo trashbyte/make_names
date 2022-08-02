@@ -9,15 +9,12 @@ keywords = ["name", "tag", "fname"]
 categories = ["no-std", "development-tools::build-utils"]
 license = "MIT"
 
-[features]
-std = []
-default= ["std"]
-
 [lib]
 proc-macro = true
 
 [dependencies]
-syn = { version = "1.0.8", default-features = false, features = ["parsing", "proc-macro"] }
 quote = { version = "1.0.2", default-features = false }
 proc-macro2 = "1.0.9"
-hashers = "1.0.1"
+fxhash = "0.2.1"
+xxhash-rust = {version = "0.8.5", features = ["xxh64", "const_xxh64"] }
+maplit = "1.0"
