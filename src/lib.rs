@@ -9,5 +9,5 @@ use xxhash_rust::xxh64::xxh64;
 pub fn name(input: TokenStream) -> TokenStream {
     let st = input.to_string();
     let hash = xxh64(st.as_bytes(), 0);
-    return quote! {crate::names::Name(#hash)}.into()
+    return quote! {crate::namegen::Name(#hash)}.into()
 }
